@@ -3,12 +3,14 @@
 // keyeado por contacto normalizado (dedup) o UUID (views).
 import { getStore } from '@netlify/blobs';
 
+// consistency: 'strong' — el dedup por contacto (get-then-set) necesita leer su propia
+// escritura sin drift; el modo eventual (default) puede tardar hasta 60s en propagar.
 export function leadsStore() {
-  return getStore('street-smarts-leads');
+  return getStore({ name: 'street-smarts-leads', consistency: 'strong' });
 }
 
 export function viewsStore() {
-  return getStore('street-smarts-views');
+  return getStore({ name: 'street-smarts-views', consistency: 'strong' });
 }
 
 // contacto = email O WhatsApp. Normaliza para dedup (mismo criterio que server.mjs original).
