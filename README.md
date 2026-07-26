@@ -31,16 +31,26 @@ PORT=3010 ADMIN_TOKEN=test node server.mjs
 # export:   http://localhost:3010/api/export?token=test
 ```
 
-## Deploy — Coolify / Contabo (datos propios, sin límites)
-1. Nuevo recurso en Coolify → "Dockerfile" (este repo) o Git.
-2. Env vars necesarias:
-   - `ADMIN_TOKEN=<código largo>` — protege `/api/lead`, `/api/export` y `/api/stats`. **Obligatorio.**
-   - `PORT=3000` (opcional, Coolify suele inyectarlo solo).
-3. Dominio/subdominio (ej. `streetsmarts.tudominio` o un `.duckdns`). Coolify maneja el cert.
-4. Volumen persistente en `/app/data` — si no, se pierden los leads en cada redeploy.
+## Deploy — Netlify (LIVE)
+**URL de producción: https://street-smarts-funnel.netlify.app**
 
-**No deployado todavía** — este repo queda listo (Dockerfile incluido) a la espera de OK explícito para
-crear el recurso en Coolify.
+El nginx del host del VPS de Coolify intercepta el puerto 80 de TODAS las apps
+(`*.161.97.158.105.sslip.io` devuelve "Welcome to nginx"), así que el deploy se movió a Netlify:
+
+- `public/` → sitio estático (landing + `/gracias`).
+- `netlify/functions/` → Netlify Functions v2 (`lead.js`, `view.js`, `count.js`, `stats.js`, `export.js`),
+  cada una con `export const config = { path: '/api/...' }` para exponer la misma ruta que el server
+  Node original.
+- Persistencia: **Netlify Blobs** (`@netlify/blobs`, `netlify/functions/_lib/blobs.js`), un blob por
+  lead keyeado por contacto normalizado (dedup nativo) y un blob por view (UUID). `consistency: 'strong'`
+  forzado — el modo eventual (default) rompía el dedup get-then-set en submits rápidos consecutivos.
+- `ADMIN_TOKEN` vive como env var en Netlify (contexts production/deploy-preview/branch-deploy), NUNCA
+  en el repo. Valor real en Keychain: `security find-generic-password -s street-smarts-funnel-netlify -a maicol -w`.
+- Deploy: `netlify deploy --prod` (requiere `NETLIFY_AUTH_TOKEN` en `~/.env`, sitio ya linkeado vía
+  `.netlify/state.json`, gitignored).
+
+`server.mjs` + `Dockerfile` quedan en el repo solo como referencia de desarrollo local (`PORT=3010
+ADMIN_TOKEN=test node server.mjs`) — no se usan en producción.
 
 ## Leads → WhatsApp (fase 2, opcional)
 Enganchar el `POST /api/lead` a MAIK (Evolution API) para que cada lead llegue por WhatsApp al instante.
