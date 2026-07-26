@@ -1,0 +1,10 @@
+{
+  "name": "street-smarts-funnel",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Landing de captura de leads de Street Smarts — Netlify Functions + Netlify Blobs.",
+  "dependencies": {
+    "@netlify/blobs": "^10.7.10"
+  }
+}

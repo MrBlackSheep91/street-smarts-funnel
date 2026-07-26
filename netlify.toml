@@ -1,0 +1,19 @@
+# Street Smarts Funnel — Netlify (landing estática + functions con Netlify Blobs)
+# Coolify queda descartado: el nginx del host del VPS tapa el puerto 80 de todas
+# las apps de Coolify (verificado — cualquier *.sslip.io devuelve "Welcome to nginx").
+
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/gracias"
+  to = "/gracias.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
