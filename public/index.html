@@ -210,9 +210,34 @@
     body: JSON.stringify({ src: SRC, referrer: REFERRER }),
   }).catch(() => {});
 
+  // engagement tracking (base para medir rebote: view sin engagement = rebote)
+  const VID = crypto.randomUUID();
+  const t0 = Date.now();
+  let maxScroll = 0;
+  let ctaTouched = false;
+  let engSent = false;
+  const scrollPct = () => {
+    const h = document.documentElement.scrollHeight - innerHeight;
+    return h > 0 ? Math.round((scrollY / h) * 100) : 100;
+  };
+  addEventListener('scroll', () => { maxScroll = Math.max(maxScroll, scrollPct()); }, { passive: true });
+  const sendEngage = () => {
+    const payload = JSON.stringify({
+      vid: VID, src: SRC,
+      seconds: Math.round((Date.now() - t0) / 1000),
+      scroll: maxScroll, cta: ctaTouched,
+    });
+    navigator.sendBeacon('/api/engage', new Blob([payload], { type: 'application/json' }));
+    engSent = true;
+  };
+  addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') sendEngage(); });
+  addEventListener('pagehide', () => { if (!engSent) sendEngage(); });
+  setTimeout(sendEngage, 15000); // foto a los 15s por si el browser no dispara los eventos de salida
+
   const form = document.getElementById('lead-form');
   const err = document.getElementById('err');
   const btn = document.getElementById('submit-btn');
+  form.addEventListener('focusin', () => { ctaTouched = true; }, { once: true });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
