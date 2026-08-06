@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Listo — Street Smarts</title>
+<title>Gracias por anotarte — Trading Brain</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -17,37 +17,41 @@
     -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;align-items:center;}
   .wrap{max-width:560px;margin:0 auto;padding:40px 22px;text-align:center;}
   .h1,.h2{font-family:'Anton',sans-serif;text-transform:uppercase;line-height:1.05;}
-  .mono{font-family:'JetBrains Mono',monospace;letter-spacing:.06em;}
+  .mono{font-family:'{JetBrains Mono',monospace;letter-spacing:.06em;}
   .knock{background:var(--cyan);color:var(--ink);padding:0 10px 3px;}
   .check{font-size:56px;color:var(--up);margin-bottom:12px;}
-  .h1{font-size:clamp(28px,8vw,44px);}
-  p.sub{font-size:clamp(16px,4.2vw,19px);font-weight:700;margin-top:16px;opacity:.9;}
-  .card{background:var(--card);border:3px solid var(--ink);border-radius:20px;padding:26px 22px;margin-top:28px;
+  .h1{font-size:clamp(28px,8vw,44px);margin:0 0 16px;}
+  p.sub{font-size:16px;font-weight:700;margin-top:16px;opacity:.9;max-width:560px;}
+  .card{background:var(--card);border:3px solid var(--ink);border-radius:20px;padding:26px 22px;
     box-shadow:6px 7px 0 var(--cyan);text-align:left;}
   .card h3{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:20px;margin-bottom:10px;}
-  .card p{font-size:15px;font-weight:500;}
+  .card p{font-size:15px;font-weight:500;margin-bottom:6px;}
   .btn{display:block;width:100%;margin-top:16px;background:var(--ink);color:var(--paper);
     font-family:'Anton',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.02em;
     padding:16px;border-radius:12px;text-decoration:none;text-align:center;}
   .btn.alt{background:transparent;color:var(--ink);border:2px solid var(--ink);}
   a.ig{display:inline-block;margin-top:22px;font-family:'JetBrains Mono',monospace;font-weight:700;
-    font-size:15px;text-decoration:none;border-bottom:3px solid var(--cyan);padding-bottom:2px;color:var(--ink);}
+    font-size:15px;text-decoration:none;border-bottom:3px solid var(--cyan);padding-bottom:2px;color:var(--ink);opacity:.8;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="check">✓</div>
-  <h1 class="h1">Listo, ya estás <span class="knock">adentro</span></h1>
-  <p class="sub">En breve te llega el material por email o WhatsApp — el mismo que antes solo estaba en el Telegram viejo.</p>
+  <h1 class="h1">Listo, <span id="nombre"></span>. Ya estás adentro.</h1>
+  <p class="sub">Te aviso cuando Trading Brain abra: te mandamos el acceso + onboarding. Mientras tanto, seguí viendo la serie.</p>
 
   <div class="card">
     <h3>Mientras tanto</h3>
-    <p>Mirá el último episodio en el canal — no hace falta esperar el mail para seguir viendo la serie.</p>
-    <a class="btn" href="https://youtube.com/@maicol.business" target="_blank" rel="noopener">Ver el canal en YouTube →</a>
+    <p>Mirá el último episodio en el canal — no hace falta esperar el mail. Primero, sé qué tipo de trader sos.</p>
+    <a class="btn" href="https://youtube.com/@maicol.business" target="_blank" rel="noopener">Ver canal en YouTube →</a>
     <a class="btn alt" href="https://instagram.com/maicol.business" target="_blank" rel="noopener">Seguir en Instagram</a>
   </div>
 
-  <a class="ig mono" href="/">← Volver</a>
+  <a class="ig mono" href="/">← Volver al formulario</a>
 </div>
+
+<footer>Street Smarts · © <span id="yr"></span></footer>
+
+<script src="https://axishub.duckdns.org/track/t.js" data-site="street-smarts" defer></script>
 </body>
 </html>
