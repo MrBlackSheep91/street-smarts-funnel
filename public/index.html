@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Street Smarts — el material de la serie, sin el Telegram viejo</title>
-<meta name="description" content="El @clubdelbot ya no existe. Anotate para seguir recibiendo el resumen de cada episodio de Street Smarts, directo a tu email o WhatsApp.">
+<title>Trading Brain — el mercado, destripado con datos</title>
+<meta name="description" content="Únete a Trading Brain, la comunidad de trading donde analizamos el mercado con datos reales (no humo). Captura de leads para el lanzamiento.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -12,242 +12,393 @@
   :root{
     --paper:#f0ebe0; --paper2:#e7e1d3; --ink:#191713;
     --navy:#12325c; --cyan:#19b8d4; --card:#f6f2e9; --up:#1f9d55;
+    --accent:#06c;
+    --accent-hover:#05a;
+    --disabled:#7a7a7a;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{background:var(--paper);color:var(--ink);font-family:'Archivo',sans-serif;line-height:1.5;
     -webkit-font-smoothing:antialiased;overflow-x:hidden;}
   .wrap{max-width:820px;margin:0 auto;padding:0 22px;}
-  .h1,.h2,.big{font-family:'Anton',sans-serif;text-transform:uppercase;line-height:1.02;letter-spacing:.005em;}
+  .h1,.h2,.h3,.big{font-family:'Anton',sans-serif;text-transform:uppercase;line-height:1.02;letter-spacing:.005em;}
   .mono{font-family:'JetBrains Mono',monospace;letter-spacing:.06em;}
   .cyan{color:var(--cyan);} .knock{background:var(--cyan);color:var(--ink);padding:0 10px 3px;
     box-decoration-break:clone;-webkit-box-decoration-break:clone;}
   a{color:inherit;}
+  button{cursor:pointer;font-family:'Anton',sans-serif;}
+  input,select,textarea{font-size:16px;}
 
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.04'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");}
-  section{position:relative;z-index:1;}
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTendencia: 0x0b9a90632;65484266'%3E%3C/div%3E%3C/filter id='n2'%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.04'/%3E%3CfeComponentTransfer%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n2)'/%3E%3C/svg%3E%3Crect width='240' height='240' fill='%23b9a90632'/%3E%3C/svg%3E%3C/body%3E%3C/");}
 
-  /* ── HERO ── */
-  .hero{padding:50px 0 36px;text-align:center;}
-  .kick{display:inline-block;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
-    letter-spacing:.14em;color:var(--ink);border:2px solid var(--ink);border-radius:30px;padding:8px 16px;margin-bottom:24px;}
-  .hero .h1{font-size:clamp(30px,9vw,54px);max-width:640px;margin:0 auto;}
-  .hero .h1 .knock{display:inline-block;margin-top:4px;}
-  .hero p.sub{font-size:clamp(16px,4.4vw,20px);font-weight:700;max-width:560px;margin:20px auto 0;}
-  .proof-badge{display:inline-block;margin-top:22px;font-family:'JetBrains Mono',monospace;font-weight:700;
-    font-size:13px;letter-spacing:.08em;background:var(--cyan);color:var(--ink);padding:8px 16px;border-radius:9px;}
-  .cta-btn{display:block;width:100%;max-width:400px;margin:28px auto 0;background:var(--ink);color:var(--paper);
-    font-family:'Anton',sans-serif;font-size:clamp(20px,5.6vw,26px);text-transform:uppercase;letter-spacing:.02em;
-    padding:18px 24px;border-radius:14px;text-decoration:none;box-shadow:5px 6px 0 var(--cyan);
-    transition:transform .12s ease;}
-  .cta-btn:active{transform:translate(3px,3px);box-shadow:2px 3px 0 var(--cyan);}
+  /* ── PROGRESO (Zeigarnik) ── */
+  .progress-bar{display:flex;justify-content:space-between;gap:8px;
+    max-width:400px;margin:0 auto 22px;padding:10px 14px;background:var(--card);
+    border-radius:12px;}
+  .segment{flex:1;height:8px;border-radius:2px;background:#ddd;transition:background .2s ease;}
+  .segment.filled{background:var(--accent);}
+  .progress-text{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;opacity:.7;}
 
-  /* ── BLOQUEO / pérdida ── */
-  .block{padding:38px 0;text-align:center;}
-  .block .h2{font-size:clamp(26px,7.5vw,42px);max-width:640px;margin:0 auto;}
-  .block p{font-size:clamp(15px,4.2vw,19px);font-weight:700;max-width:520px;margin:16px auto 0;opacity:.9;}
+  /* ── PASO 0 (HERO) ── */
+  .hero{padding:50px 0 30px;text-align:center;position:relative;}
+  .hero .kick{display:inline-block;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+    letter-spacing:.14em;color:var(--ink);border:2px solid var(--ink);border-radius:30px;padding:8px 16px;margin-bottom:12px;}
+  .hero .h1{font-size:clamp(32px,10vw,56px);max-width:680px;margin:0 auto 16px 0;}
+  .hero .h1 .knock{display:inline-block;margin-top:6px;font-size:0.9em;}
+  .hero .sub{font-size:clamp(17px,4.5vw,21px);font-weight:700;max-width:580px;margin:12px auto 0;opacity:.9;}
+  .hero .proof-badge,.hero .social-proof{display:inline-block;margin-top:10px;}
+  .hero .proof-badge{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.07em;
+    background:var(--cyan);color:var(--ink);padding:6px 14px;border-radius:6px;}
+  .hero .social-proof{margin-left:8px;opacity:.5;font-family:'JetBrains Mono',monospace;font-weight:500;
+    font-size:12px;letter-spacing:.04em;}
+  .hero .cta-scroll{margin-top:20px;color:var(--navy);font-weight:500;font-size:15px;
+    animation:bounce 2s infinite;}@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
+  .hero .cta-scroll::after{content:"↓";display:inline-block;margin-left:4px;}
+  .hero .wait-prueba{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.5;margin-top:10px;min-height:20px;}
+  .hero .wait-prueba.loading::after{content:"…";animation:pulse 1s infinite;}
+  .hero .trust-line{margin-top:16px;font-size:13px;opacity:.6;}
+  .hero .trust-line .knock{background:var(--cyan);padding:2px 6px;font-size:10px;border-radius:4px;vertical-align:middle;}
+  .hero .trust-line .escasez{margin-left:12px;color:var(--ink);}
+  .hero .trust-line .escasez small{font-size:11px;}
 
-  /* ── QUÉ RECIBÍS ── */
-  .get{background:var(--navy);color:#fff;padding:44px 0;}
-  .get .wrap{text-align:center;}
-  .get .h2{font-size:clamp(24px,6.5vw,40px);color:#fff;}
-  .get .h2 .knock{color:var(--ink);}
-  .get ul{list-style:none;max-width:520px;margin:24px auto 0;text-align:left;}
-  .get li{font-size:clamp(15px,3.9vw,18px);font-weight:700;padding:14px 0 14px 42px;position:relative;
-    border-top:1px solid rgba(255,255,255,.15);}
-  .get li:first-child{border-top:none;}
-  .get li::before{content:"✓";position:absolute;left:0;top:12px;width:28px;height:28px;background:var(--cyan);
-    color:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;}
-  .get .fine{margin-top:22px;font-family:'JetBrains Mono',monospace;font-size:12px;opacity:.65;letter-spacing:.04em;}
-
-  /* ── FORM ── */
+  /* ── FORM MULTI-PASO (Zeigernik + B=MAP) ── */
   .capture{padding:44px 0 20px;}
   .form-card{background:var(--card);border:3px solid var(--ink);border-radius:22px;padding:28px 22px;
     box-shadow:7px 8px 0 var(--cyan);max-width:560px;margin:0 auto;}
-  .form-card .h2{font-size:clamp(22px,6.2vw,34px);text-align:center;}
-  .form-card p.mini{text-align:center;font-size:14px;font-weight:700;margin:10px auto 22px;opacity:.85;max-width:420px;}
-  .field{margin-bottom:15px;}
-  .field label{display:block;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;
+  .form-card .h2{font-size:clamp(22px,6.2vw,36px);text-align:center;}
+  .form-card .mini{text-align:center;font-size:14px;font-weight:700;margin:10px auto 22px;opacity:.85;max-width:420px;}
+  .form-card .err{display:none;text-align:center;font-size:13px;font-weight:700;color:#b02a2a;margin-top:10px;}
+
+  /* PASOS: solo el visible activo */
+  .step{display:none;padding-top:24px;}
+  .step.active{display:block;}
+  .step h3{font-size:clamp(20px,5.5vw,32px);margin-bottom:12px;color:var(--navy);}
+  .step .field{margin-bottom:18px;}
+  .step label{display:block;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;
     letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
-  .field input, .field select, .field textarea{width:100%;font-family:'Archivo',sans-serif;font-size:16px;font-weight:500;
+  .step input, .step select, .step textarea{width:100%;font-family:'Archivo',sans-serif;font-size:16px;
     padding:14px 15px;border:2px solid var(--ink);border-radius:12px;background:#fff;color:var(--ink);
     -webkit-appearance:none;appearance:none;}
-  .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23191713' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;background-position:right 14px center;background-size:16px;padding-right:40px;}
-  .field textarea{resize:vertical;min-height:70px;font-family:'Archivo',sans-serif;}
-  .field input:focus, .field select:focus, .field textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 4px rgba(25,184,212,.25);}
-  .divider{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.08em;
-    text-transform:uppercase;opacity:.55;margin:20px 0 12px;text-align:center;}
-  .submit{width:100%;margin-top:6px;background:var(--ink);color:var(--paper);font-family:'Anton',sans-serif;
-    font-size:24px;text-transform:uppercase;letter-spacing:.02em;padding:18px;border:none;border-radius:14px;
-    cursor:pointer;transition:transform .12s;}
-  .submit:active{transform:translateY(2px);}
-  .submit:disabled{opacity:.6;}
-  .privacy{text-align:center;font-size:12px;font-weight:500;opacity:.6;margin-top:14px;}
-  .err{display:none;text-align:center;font-size:13px;font-weight:700;color:#b02a2a;margin-top:10px;}
-  .err.show{display:block;}
+  .step .field.toggles{display:flex;gap:12px;}
+  .step .toggle-group{display:flex;align-items:center;gap:8px;}
+  .step input[type=radio]{display:none;}
+  .step .radio-label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:15px;}
+  .step input[type=radio]:checked+.radio-label{color:var(--ink);font-weight:700;}
+  .step .radio-label::before{content:"○";width:18px;height:18px;border:2px solid var(--ink);border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;margin-right:6px;flex-shrink:0;}
+  .step input[type=radio]:checked+.radio-label::before{background:var(--navy);border-color:var(--navy);}
+  .step .step-label-inline{font-size:14px;color:var(--ink);margin-top:8px;margin-bottom:6px;}
+  .step .helper{font-size:12px;color:var(--navy);margin-top:4px;opacity:.7;}
+  .step .submit{width:100%;margin-top:16px;background:var(--ink);color:var(--paper);
+    font-family:'Anton',sans-serif;font-size:24px;text-transform:uppercase;letter-spacing:.02em;
+    padding:18px;border:none;border-radius:14px;cursor:pointer;transition:transform .12s;}
+  .step .submit:active{transform:translateY(2px);box-shadow:2px 3px 0 var(--cyan);}
+  .step .submit:disabled{opacity:.6;cursor:not-allowed;}
+  .step .back-link{display:block;text-align:center;margin-top:16px;font-size:14px;color:var(--navy);
+    text-decoration:underline;opacity:.8;}
+  .step .step-label-inline{font-size:13px;opacity:.7;}
 
-  /* ── AUTOR / CIERRE ── */
+  /* ── POST-SUBMIT (gracias) ── */
+  .thanks{padding:60px 40px;text-align:center;}
+  .thanks h2{font-size:clamp(26px,7vw,40px);margin-bottom:20px;color:var(--navy);}
+  .thanks p{font-size:16px;line-height:1.6;margin-bottom:30px;color:var(--ink);max-width:580px;}
+  .thanks .next{font-size:14px;color:var(--navy);opacity:.8;}
+
+  /* ── AUTOR ── */
   .author{padding:36px 0 56px;text-align:center;}
   .author .proof{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.1em;
     text-transform:uppercase;opacity:.7;}
   .author .h2{font-size:clamp(20px,5.5vw,32px);max-width:560px;margin:14px auto 0;}
-  .author a.ig{display:inline-block;margin-top:20px;font-family:'JetBrains Mono',monospace;font-weight:700;
+  .author .ig{display:inline-block;margin-top:20px;font-family:'JetBrains Mono',monospace;font-weight:700;
     font-size:16px;text-decoration:none;border-bottom:3px solid var(--cyan);padding-bottom:2px;}
   footer{text-align:center;padding:24px 0 40px;font-size:12px;opacity:.5;font-family:'JetBrains Mono',monospace;}
 </style>
 </head>
 <body>
 
-<!-- HERO -->
+<!-- ── PASO 0: HERO (Zeigarnik: incompletitud visible + escasez + prueba social + autoridad) ── -->
 <section class="hero"><div class="wrap">
-  <span class="kick">STREET SMARTS · LA SERIE</span>
-  <h1 class="h1">Se cayó el Telegram.<br><span class="knock">Así seguís el material.</span></h1>
-  <p class="sub">El <b>@clubdelbot</b> ya no existe — perdí el acceso y con eso se perdieron los resúmenes. Esta es la única forma de seguir recibiendo el material de cada episodio.</p>
-  <span class="proof-badge">+22.000 VISTAS REALES EN LA SERIE</span>
-  <a href="#form" class="cta-btn">Quiero el material →</a>
-</div></section>
-
-<!-- BLOQUEO -->
-<section class="block"><div class="wrap">
-  <h2 class="h2">Si ya te pasó una vez,<br><span class="knock">te puede volver a pasar.</span></h2>
-  <p>El canal viejo se cayó y con él, el acceso de todos los que estaban adentro. Esta lista es tuya, no de un bot de Telegram que puede desaparecer.</p>
-</div></section>
-
-<!-- QUÉ RECIBÍS -->
-<section class="get"><div class="wrap">
-  <h2 class="h2">Qué te llevás <span class="knock">anotándote</span></h2>
-  <ul>
-    <li>El resumen de cada episodio — lo importante, sin ver los 40 minutos.</li>
-    <li>Aviso apenas sale el próximo episodio, antes que se pierda en el feed.</li>
-    <li>El material que antes solo estaba en el Telegram viejo.</li>
-  </ul>
-  <p class="fine">Cero spam. Esto es solo la serie, nada más.</p>
-</div></section>
-
-<!-- FORM -->
-<section class="capture" id="form"><div class="wrap">
-  <div class="form-card">
-    <h2 class="h2">Anotate acá</h2>
-    <p class="mini">Te mando el material ahora + el aviso del próximo episodio.</p>
-    <form id="lead-form" novalidate>
-      <div class="field"><label for="name">Tu nombre</label>
-        <input id="name" name="name" type="text" placeholder="Cómo te llamás" required autocomplete="name"></div>
-      <div class="field"><label for="email">Email o WhatsApp</label>
-        <input id="email" name="email" type="text" placeholder="Dónde te mando el material" required autocomplete="email"></div>
-
-      <div class="divider">Contanos un poco más</div>
-
-      <div class="field"><label for="donde">¿Dónde nos escuchás?</label>
-        <select id="donde" name="donde" required>
-          <option value="" disabled selected>Elegí una opción</option>
-          <option value="youtube">YouTube</option>
-          <option value="spotify">Spotify</option>
-          <option value="me_lo_pasaron">Me lo pasaron</option>
-          <option value="otro">Otro</option>
-        </select></div>
-
-      <div class="field"><label for="como">¿Cómo llegaste?</label>
-        <select id="como" name="como" required>
-          <option value="" disabled selected>Elegí una opción</option>
-          <option value="busqueda_youtube">Búsqueda en YouTube</option>
-          <option value="recomendado">Recomendado (algoritmo)</option>
-          <option value="amigo">Un amigo</option>
-          <option value="redes">Redes sociales</option>
-          <option value="otro">Otro</option>
-        </select></div>
-
-      <div class="field"><label for="opera">¿Qué operás?</label>
-        <select id="opera" name="opera" required>
-          <option value="" disabled selected>Elegí una opción</option>
-          <option value="forex">Forex</option>
-          <option value="indices">Índices</option>
-          <option value="cripto">Cripto</option>
-          <option value="acciones">Acciones</option>
-          <option value="todavia_no">Todavía no opero</option>
-        </select></div>
-
-      <div class="field"><label for="hace_cuanto">¿Hace cuánto operás?</label>
-        <select id="hace_cuanto" name="hace_cuanto" required>
-          <option value="" disabled selected>Elegí una opción</option>
-          <option value="empezando">Recién empezando</option>
-          <option value="menos_1">Menos de 1 año</option>
-          <option value="1_3">1 a 3 años</option>
-          <option value="mas_3">Más de 3 años</option>
-        </select></div>
-
-      <div class="field"><label for="costando">¿Qué es lo que más te está costando ahora?</label>
-        <textarea id="costando" name="costando" placeholder="Contame en una frase" maxlength="300"></textarea></div>
-
-      <button class="submit" type="submit" id="submit-btn">Quiero el material →</button>
-      <p class="err" id="err">Ups, probá de nuevo en un momento.</p>
-    </form>
-    <p class="privacy">Cero spam. Solo el material de la serie.</p>
+  <span class="kick">TRADING BRAIN · LA COMUNIDAD</span>
+  <h1 class="h1">El mercado, destripado con datos — no con humo.</h1>
+  <p class="sub">Únete a Trading Brain, la comunidad donde analizamos el mercado con datos públicos y enseñamos a operar sin la narrativa del mercado.</p>
+  <div class="trust-line">
+    <span class="knock">Maicol</span>
+    <span class="escasez">·</span>
+    <span class="escasez small">Comunidad Trading Brain abre pronto. <span class="escasez-data">Quedan <span class="cupos-count">7</span> cupos fundador de 10.</span></span>
   </div>
-</div></section>
+  <!-- Prueba social: /api/count se lanza al cargar (fetch en script) y se inyecta aquí -->
+  <div id="social-proof" class="social-proof" style="display:none;">
+    <span class="proof-badge">X traders ya siguen este análisis</span>
+    <span class="social-proof"> · </span>
+    <a href="#form" class="cta-btn scroll" style="text-decoration:none;box-shadow:5px 6px 0 var(--cyan);">Quiero mi lugar →</a>
+  </div>
+  <div id="wait-prueba" class="wait-prueba">Conectando datos para prueba social…</div>
+</section>
 
-<!-- AUTOR -->
+<!-- ── PASO 1 (B=MAP: 1-2 campos, fricción mínima) ── -->
+<section id="paso-1" class="step active">
+  <div class="form-card">
+    <h3>Paso 1 de 4 · te lleva 30 segundos</h3>
+    <p class="mini">Identidad básica — ¿cómo te llamás? ¿A dónde te escribimos? Todo en 30 segundos.</p>
+    <div class="field">
+      <label for="p1-name">Tu nombre *</label>
+      <input id="p1-name" name="name" placeholder="Ej: Juan" required autocomplete="name">
+    </div>
+    <div class="field toggles">
+      <div class="toggle-group">
+        <label class="radio-label"><input type="radio" name="p1-contacto" value="email"> Email</label>
+        <span class="radio-label::before">○</span>
+        <label class="radio-label"><input type="radio" name="p1-contacto" value="whatsapp"> WhatsApp</label>
+        <span class="radio-label::before">○</span>
+      </div>
+    </div>
+    <p class="helper">Te escribiré una sola vez cuando Trading Brain abra.</p>
+    <div class="step-label-inline">Puedes volver atrás en cualquier paso.</div>
+    <a href="#form" class="back-link">← Volver</a>
+    <button class="submit" onclick="nextStep(2)">Siguiente →</button>
+  </div>
+</section>
+
+<!-- ── PASO 2 (Zeigarnik: atribución, prellenado por ?src=) ── -->
+<section id="paso-2" class="step">
+  <div class="form-card">
+    <h3>Paso 2 de 4 · te lleva 30 segundos</h3>
+    <p class="mini">Desde dónde nos conoces — así podemos entender qué contenido priorizar para vos.</p>
+    <div class="field">
+      <label for="p2-fuente">¿Desde dónde nos conocés? *</label>
+      <select id="p2-fuente" name="fuente" required>
+        <option value="" disabled selected>Elegí una opción</option>
+        <option value="youtube">YouTube (serie de análisis diario)</option>
+        <option value="telegram">Telegram @ICTesp (canal de trading)</option>
+        <option value="instagram">Instagram</option>
+        <option value="recomendado">Recomendado (amigo/curador)</option>
+        <option value="otro">Otro</option>
+      </select>
+    </div>
+    <div class="step-label-inline">Paso 3 y 4 antes de llegar al submit.</div>
+    <a href="#form" class="back-link">← Volver</a>
+    <button class="submit" onclick="nextStep(3)">Siguiente →</button>
+  </div>
+</section>
+
+<!-- ── PASO 3 (calificación ligera) ── -->
+<section id="paso-3" class="step">
+  <div class="form-card">
+    <h3>Paso 3 de 4 · te lleva 30 segundos</h3>
+    <p class="mini">¿Cuánto tiempo lleva operando? Para entender qué tan avanzado estás y calibrar el contenido.</p>
+    <div class="field">
+      <label for="p3-experiencia">¿Cuánto hace que operás?</label>
+      <select id="p3-experiencia" name="experiencia" required>
+        <option value="" disabled selected>Elegí una opción</option>
+        <option value="recien">Recién empiezo</option>
+        <option value="1-12-meses">1–12 meses</option>
+        <option value="1-3-anos">1–3 años</option>
+        <option value="mas-3-anos">+3 años</option>
+      </select>
+    </div>
+    <div class="step-label-inline">Último paso antes del submit.</div>
+    <a href="#form" class="back-link">← Volver</a>
+    <button class="submit" onclick="nextStep(4)">Siguiente →</button>
+  </div>
+</section>
+
+<!-- ── PASO 4 (Zeigarnik cierra: framing pérdida + escasez + CTA fuerte) ── -->
+<section id="paso-4" class="step">
+  <div class="form-card">
+    <h3>Paso 4 de 4 · te lleva 30 segundos</h3>
+    <p class="mini">Qué te está costando hoy del trading — nos permite entender tu dolor y priorizarte tu ayuda.</p>
+    <div class="field">
+      <label for="p4-dolor">¿Qué te está costando HOY del trading?</label>
+      <textarea id="p4-dolor" name="dolor" maxlength="300" placeholder="Ej: me está costando perder dinero por no entender los niveles..." maxlength="300"></textarea>
+    </div>
+    <p class="helper">
+      Escasez real: quedan <span id="cupos-data">7</span> cupos fundador de 10. <br>
+      Framing de pérdida: si reconoces el dolor, es porque hay una salida.
+    </p>
+    <div class="step-label-inline">Este es el último paso antes de enviar.</div>
+    <button type="submit" id="submit-btn">Quiero mi cupo de fundador →</button>
+    <p class="err" id="err">Ups, probá de nuevo en un momento.</p>
+    <p class="privacy">Cero spam. Trading Brain es comunidad real, no máquina. Tu datos seguros.</p>
+  </div>
+</section>
+
+<!-- ── AUTOR ── -->
 <section class="author"><div class="wrap">
-  <div class="proof">+22.000 vistas reales en la serie</div>
-  <h2 class="h2">Soy Maicol. Street Smarts es la serie donde cuento lo que aprendí operando, sin filtro.</h2>
+  <div class="proof">datos públicos · sin humo</div>
+  <h2>Soy Maicol. Trading Brain es la comunidad donde analizamos el mercado con datos públicos y enseñamos a operar sin la narrativa del mercado.</h2>
   <a class="ig" href="https://instagram.com/maicol.business" target="_blank" rel="noopener">@maicol.business →</a>
 </div></section>
 
 <footer>Street Smarts · © <span id="yr"></span></footer>
 
-<script src="https://axishub.duckdns.org/track/t.js" data-site="street-smarts" defer></script>
 <script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
+  // ===== CONFIGURACIÓN =====
+  const FUNDADOR_RESTANTES = 7; // configurable; Maicol definió 10 cupos fundador, quedan N. Ajustar si cambia.
+  let currentStep = 1;
+  let cuposRestantes = FUNDADOR_RESTANTES;
 
-  const params = new URLSearchParams(location.search);
-  const SRC = params.get('src') || '';
-  const REFERRER = document.referrer || '';
+  // ===== INICIALIZAR (fetch ?src=, prueba social, escasez) =====
+  async function initForm() {
+    const params = new URLSearchParams(location.search);
+    const SRC = params.get('src') || '';
+    const REFERRER = document.referrer || '';
 
-  // page-view tracking (para medir qué episodio/link convierte más)
-  fetch('/api/view', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ src: SRC, referrer: REFERRER }),
-  }).catch(() => {});
+    // 1) prellenar el select del paso 2 según ?src= si aplica
+    const selectFuente = document.getElementById('p2-fuente');
+    const fuenteMap = {
+      'youtube': 'youtube',
+      'telegram': 'telegram',
+      'instagram': 'instagram',
+      'recomendado': 'recomendado',
+      'otro': 'otro'
+    };
+    if (SRC && fuenteMap[SRC]) {
+      selectFuente.value = fuenteMap[SRC];
+      selectFuente.dispatchEvent(new Event('change')); // fire para actualizarse visual
+    }
 
-  // engagement tracking (base para medir rebote: view sin engagement = rebote)
-  const VID = crypto.randomUUID();
-  const t0 = Date.now();
-  let maxScroll = 0;
-  let ctaTouched = false;
-  let engSent = false;
-  const scrollPct = () => {
-    const h = document.documentElement.scrollHeight - innerHeight;
-    return h > 0 ? Math.round((scrollY / h) * 100) : 100;
-  };
-  addEventListener('scroll', () => { maxScroll = Math.max(maxScroll, scrollPct()); }, { passive: true });
-  const sendEngage = () => {
-    const payload = JSON.stringify({
-      vid: VID, src: SRC,
-      seconds: Math.round((Date.now() - t0) / 1000),
-      scroll: maxScroll, cta: ctaTouched,
+    // 2) prueba social: fetch /api/count al cargar el hero
+    const socialProof = document.getElementById('social-proof');
+    const waitPrueba = document.getElementById('wait-prueba');
+    if (socialProof) socialProof.style.display = 'none'; // ocultar hasta confirmar count
+    if (waitPrueba) waitPrueba.classList.add('loading');
+
+    try {
+      const res = await fetch('/api/count', { method: 'GET' });
+      if (!res.ok) throw new Error('bad response');
+      const data = await res.json();
+      const count = data.count || 0;
+      if (count > 0) {
+        // actualizar escasez con el count real
+        const escasezData = document.getElementById('cupos-data');
+        if (escasezData) escasezData.textContent = count;
+        socialProof.style.display = 'flex';
+        socialProof.querySelector('.proof-badge').textContent = `${count} traders ya siguen este análisis`;
+        socialProof.querySelector('.social-proof').classList.remove('hide');
+      } else {
+        socialProof.style.display = 'none'; // no traders → ocultar prueba social
+      }
+    } catch (e) {
+      if (waitPrueba) {
+        waitPrueba.classList.remove('loading');
+        waitPrueba.textContent = 'Sin datos de prueba social (sin conexión)';
+        waitPrueba.classList.add('error');
+      }
+      // falla gracefully: no bloquea el form
+      console.warn('Prueba social falló:', e.message);
+    } finally {
+      if (waitPrueba) waitPrueba.classList.remove('loading');
+    }
+
+    // 3. actualizar escasez con cuposRestantes
+    const escasezData = document.getElementById('cupos-data');
+    if (escasezData) escasezData.textContent = cuposRestantes;
+
+    // 4. mostrar paso 1
+    showStep(1);
+  }
+
+  // ===== NAVEGACIÓN MULTI-PASO =====
+  function showStep(stepNum) {
+    // ocultar todos los pasos
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    // mostrar el paso solicitado
+    const paso = document.getElementById(`paso-${stepNum}`);
+    if (paso) paso.classList.add('active');
+
+    // actualizar barra de progreso
+    const segments = document.querySelectorAll('.segment');
+    segments.forEach((seg, i) => {
+      if (i + 1 === stepNum) {
+        seg.classList.add('filled');
+      } else {
+        seg.classList.remove('filled');
+      }
     });
-    navigator.sendBeacon('/api/engage', new Blob([payload], { type: 'application/json' }));
-    engSent = true;
-  };
-  addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') sendEngage(); });
-  addEventListener('pagehide', () => { if (!engSent) sendEngage(); });
-  setTimeout(sendEngage, 15000); // foto a los 15s por si el browser no dispara los eventos de salida
+  }
 
+  function nextStep(targetStep) {
+    // validar paso actual antes de avanzar
+    const current = document.querySelector('.step.active');
+    const pasoNum = parseInt(current.id.split('-')[1]);
+    const requiredField = current.querySelector('input[required]:not([disabled])');
+    if (requiredField && !requiredField.value.trim()) {
+      const err = document.getElementById('err');
+      err.textContent = 'Completá este campo para avanzar.';
+      err.classList.add('show');
+      requiredField.focus();
+      return;
+    }
+
+    showStep(targetStep);
+  }
+
+  function prevStep() {
+    const current = document.querySelector('.step.active');
+    const pasoNum = parseInt(current.id.split('-')[1]);
+    if (pasoNum > 1) {
+      showStep(pasoNum - 1);
+    }
+  }
+
+  // ===== ENTER EN INPUT = avanzar (como en el original) =====
+  document.querySelectorAll('.step input').forEach(input => {
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const btn = document.querySelector('.step.active .submit');
+        if (btn && !btn.disabled && !btn.classList.contains('disabled')) {
+          const submitBtn = document.getElementById('submit-btn');
+          if (submitBtn && submitBtn.textContent.includes('→')) {
+            submitBtn.click(); // emula click en botón
+          }
+        }
+      }
+    });
+  });
+
+  // botón "Volver" en cada paso (excepto paso 1)
+  document.querySelectorAll('.back-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      prevStep();
+    });
+  });
+
+  // ===== SUBMIT FINAL (acumula todos los campos de los 4 pasos) =====
   const form = document.getElementById('lead-form');
-  const err = document.getElementById('err');
-  const btn = document.getElementById('submit-btn');
-  form.addEventListener('focusin', () => { ctaTouched = true; }, { once: true });
+  if (!form) return;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const err = document.getElementById('err');
+    const btn = document.getElementById('submit-btn');
     err.classList.remove('show');
     btn.disabled = true;
     btn.textContent = 'Enviando…';
-    const data = Object.fromEntries(new FormData(form).entries());
+
+    // acumular datos de los 4 pasos
+    const data = {};
+    // paso 1
+    const nombre = document.getElementById('p1-name').value.trim();
+    const contactoRadio = document.querySelector('input[name="p1-contacto"]:checked').value; // 'email' o 'whatsapp'
+    data.name = nombre || '';
+    data.email_o_whatsapp = contactoRadio || '';
+    // paso 2
+    data.fuente = document.getElementById('p2-fuente').value || '';
+    // paso 3
+    data.experiencia = document.getElementById('p3-experiencia').value || '';
+    // paso 4
+    data.dolor = document.getElementById('p4-dolor').value.trim() || '';
+
+    // agregar src y referrer
+    const params = new URLSearchParams(location.search);
+    const SRC = params.get('src') || '';
+    const REFERRER = document.referrer || '';
     data.src = SRC;
     data.referrer = REFERRER;
+
     try {
       const res = await fetch('/api/lead', {
         method: 'POST',
@@ -258,11 +409,15 @@
       const qs = SRC ? ('?src=' + encodeURIComponent(SRC)) : '';
       location.href = '/gracias' + qs;
     } catch (e2) {
+      err.textContent = 'Ups, probá de nuevo en un momento.';
       err.classList.add('show');
       btn.disabled = false;
-      btn.textContent = 'Quiero el material →';
+      btn.textContent = 'Quiero mi cupo de fundador →';
     }
   });
+
+  // ===== INICIALIZACIÓN AL CARGAR =====
+  document.addEventListener('DOMContentLoaded', initForm);
 </script>
 </body>
 </html>
